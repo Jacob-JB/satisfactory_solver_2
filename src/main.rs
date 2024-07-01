@@ -1,6 +1,10 @@
-use log::info;
-
 use eframe::egui;
+use pages::{DefaultPage, Page};
+
+pub mod builder;
+pub mod factory;
+pub mod pages;
+pub mod world;
 
 fn main() -> eframe::Result<()> {
     simple_logger::SimpleLogger::new()
@@ -16,17 +20,26 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "Satisfactory Solver",
         options,
-        Box::new(|_| Box::<SolverApp>::default()),
+        Box::new(|_| Box::new(SolverApp::new())),
     )
 }
 
-#[derive(Default)]
-struct SolverApp {}
+struct SolverApp {
+    page: Box<dyn Page>,
+}
+
+impl SolverApp {
+    fn new() -> Self {
+        SolverApp {
+            page: Box::new(pages::world::LandingPage::new()),
+        }
+    }
+}
 
 impl eframe::App for SolverApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Hello World!");
+            self.page = std::mem::replace(&mut self.page, Box::new(DefaultPage)).show(ui);
         });
     }
 }

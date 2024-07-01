@@ -1,0 +1,1 @@
+{"rules":[{"Resource":{"resource":"Mega Joule","constraint":"Unconstrained"}},{"Resource":{"resource":"Crude Oil","constraint":{"Equal":-300.0}}},{"Resource":{"resource":"Water","constraint":"Unconstrained"}},{"Resource":{"resource":"Plastic","constraint":"Unconstrained"}}]}
